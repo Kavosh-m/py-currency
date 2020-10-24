@@ -4,7 +4,7 @@ from tkinter import *
 
 root = Tk()
 root.title('Dollor to Toman')
-root.geometry('500x500')
+root.geometry('700x700')
 
 var = StringVar()
 var2 = StringVar()
