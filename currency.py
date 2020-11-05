@@ -73,23 +73,23 @@ def get_updated():
     
 
 
-updateSign = PhotoImage(file="update72x72.png")
+updateSign = PhotoImage(file="icons/update72x72.png")
 update_button = Button(root, image=updateSign, command=get_updated)
 update_button.pack(pady=10)
 
 frame1 = Frame(root, height=400, bd=1, relief=SUNKEN)
 frame1.pack(fill=X, padx=5, pady=5)
 
-dollarSign = PhotoImage(file="dollar.png")
+dollarSign = PhotoImage(file="icons/dollar.png")
 dollar_label = Label(frame1, image=dollarSign).grid(row=0, column=0, sticky=W)
 
-coinSign = PhotoImage(file="coin.png")
+coinSign = PhotoImage(file="icons/coin.png")
 coin_label = Label(frame1, image=coinSign).grid(row=1, column=0, sticky=W)
 
-goldSign = PhotoImage(file="gold.png")
+goldSign = PhotoImage(file="icons/gold.png")
 gold_label = Label(frame1, image=goldSign).grid(row=2, column=0, sticky=W)
 
-bitcoinSign = PhotoImage(file="bitcoin.png")
+bitcoinSign = PhotoImage(file="icons/bitcoin.png")
 bitcoin_label = Label(frame1, image=bitcoinSign).grid(row=3, column=0, sticky=W)
 
 
