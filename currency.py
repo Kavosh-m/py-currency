@@ -1,54 +1,96 @@
+import bs4
 import requests
 from bs4 import BeautifulSoup as bs
+from urllib.request import urlopen
 from tkinter import *
 
 root = Tk()
-root.title('Dollor to Toman')
-root.geometry('500x500')
+root.title('Bazaar')
+root.geometry('500x635')
 
-var = StringVar()
+var1 = StringVar()
 var2 = StringVar()
+var3 = StringVar()
+var4 = StringVar()
 
-def get_updated_dollor_value_in_rial():
+def get_updated():
+    
+    # Resetting Price Info
+    var1.set("")
+    var2.set("")
+    var3.set("")
+    var4.set("")
+
     url = 'https://www.tgju.org/'
-    response = requests.get(url)
-    soup = bs(response.text, 'html.parser')
-    global dolar
+    try:
+        page = urlopen(url)
+    except:
+        print('Error opening the URL')
+    
+    soup = bs4.BeautifulSoup(page,'html.parser')
+    
+    # Dollar in Rial
     dolar = soup.findAll("li", {"id": "l-price_dollar_rl"})
     for tag in dolar:
         spanTag = tag.findAll("span", {"class": "info-price"})
         for tag in spanTag:
             dolar = tag.text
     dolar = int(dolar.replace(',', ''))
-    var.set('At this moment, 1 USD is {} rial'.format(dolar))
+    var1.set('{:,} Rials'.format(dolar))
+    dollarLabel = Label(frame1, width=20, font='Helvetica 20', textvariable=var1).grid(row=0, column=1, sticky=E)
+    
+    # Coin in Rial
+    coin = soup.findAll("li", {"id": "l-irec_future"})
+    for tag in coin:
+        spanTag = tag.findAll("span", {"class": "info-price"})
+        for tag in spanTag:
+            coin = tag.text
+    coin = int(coin.replace(',', ''))
+    var2.set('{:,} Rials'.format(coin))
+    coinLabel = Label(frame1, width=20, font='Helvetica 20', textvariable=var2).grid(row=1, column=1, sticky=E)
+    
+    # Gold in Rial
+    gold = soup.findAll("li", {"id": "l-geram18"})
+    for tag in gold:
+        spanTag = tag.findAll("span", {"class": "info-price"})
+        for tag in spanTag:
+            gold = tag.text
+    gold = int(gold.replace(',', ''))
+    var3.set('{:,} Rials'.format(gold))
+    goldLabel = Label(frame1, width=20, font='Helvetica 20', textvariable=var3).grid(row=2, column=1, sticky=E)
+    
+    # bitcoin in Rial
+    bitcoin = soup.findAll("li", {"id": "l-crypto-bitcoin"})
+    for tag in bitcoin:
+        spanTag = tag.findAll("span", {"class": "info-price"})
+        for tag in spanTag:
+            bitcoin = tag.text
+    bitcoin = float(bitcoin)
+    var4.set('{:,} Dollars'.format(bitcoin))
+    goldLabel = Label(frame1, width=20, font='Helvetica 20', textvariable=var4).grid(row=3, column=1, sticky=E)
+    
+    
+    
 
-def toman():
-    label4 = Label(frame1, font='Times 12', textvariable=var2)
-    label4.grid(row=2, column=3, sticky=W+E)
-    var2.set('{:,} Toman'.format((dolar // 10) * int(entry1.get())))
 
-get_dollor_button = Button(root, text='Get Dollor Value', bd=3, bg='black',
-                           fg='yellow', font='Times 12', command=get_updated_dollor_value_in_rial)
-get_dollor_button.pack()
+updateSign = PhotoImage(file="update72x72.png")
+update_button = Button(root, image=updateSign, command=get_updated)
+update_button.pack(pady=10)
 
 frame1 = Frame(root, height=400, bd=1, relief=SUNKEN)
 frame1.pack(fill=X, padx=5, pady=5)
 
-label = Label(frame1, fg='#00b300', font='Times 15', textvariable=var)
-label.grid(row=0, column=0, sticky=W+E)
+dollarSign = PhotoImage(file="dollar.png")
+dollar_label = Label(frame1, image=dollarSign).grid(row=0, column=0, sticky=W)
 
-label2 = Label(frame1, text='Dollor to Toman:', font='Times 12')
-label2.grid(row=1, column=0, sticky=W)
+coinSign = PhotoImage(file="coin.png")
+coin_label = Label(frame1, image=coinSign).grid(row=1, column=0, sticky=W)
 
-entry1 = Entry(frame1)
-entry1.grid(row=2, column=0, sticky=W+E)
+goldSign = PhotoImage(file="gold.png")
+gold_label = Label(frame1, image=goldSign).grid(row=2, column=0, sticky=W)
 
-label3 = Label(frame1, text='Dollor', font='Times 12')
-label3.grid(row=2, column=1, sticky=W+E)
-
-usd_to_toman = Button(frame1, text='is', bd=3, font='Times 13', command=toman)
-usd_to_toman.grid(row=2, column=2, sticky=W+E)
-
+bitcoinSign = PhotoImage(file="bitcoin.png")
+bitcoin_label = Label(frame1, image=bitcoinSign).grid(row=3, column=0, sticky=W)
 
 
 root.mainloop()
